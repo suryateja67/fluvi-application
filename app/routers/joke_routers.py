@@ -1,4 +1,4 @@
-from app.crud.joke_crud import create_joke, get_all_jokes, get_joke_by_id, delete_joke
+from app.crud.joke_crud import create_joke, get_all_jokes, get_joke_by_id, delete_joke, update_joke
 from app.auth.auth_jwt import verify_access_token
 from app.models.models import User
 from auth.auth_jwt import get_current_user
@@ -84,6 +84,40 @@ async def get_joke_endpoint(
         return {
             "status": "success",
             "joke": joke 
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=str(e)
+        )
+
+@router.put("/jokes/{joke_id}", status_code=status.HTTP_200_OK)
+async def update_joke_endpoint(
+    joke_id: str, 
+    new_joke_text: str, 
+    current_user: User = Depends(get_current_user)
+):
+    if not current_user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not authenticated."
+        )
+    try:
+        is_owner = await verify_joke_owner(joke_id, current_user)
+        if not is_owner:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You are not authorized to update this joke."
+            )
+        updated = await update_joke(joke_id, new_joke_text)
+        if not updated: 
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Joke not found."
+            )
+        return {
+            "status": "success",
+            "message": "Joke updated successfully."
         }
     except Exception as e:
         raise HTTPException(
