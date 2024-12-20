@@ -41,7 +41,7 @@ def fetch_random_joke():
         joke_data = response.json()
         print(f"Fetched Joke: {joke_data['joke']}")
         try:
-            loop.run_until_complete(create_joke(str(joke_data["joke"]), current_user=None, joke_id=joke_data["id"]))
+            loop.run_until_complete(create_joke(str(joke_data["joke"]), author=None, joke_id=joke_data["id"]))
         except Exception as e:
             print(f"Failed to create joke: {str(e)}")
             raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to create joke in database")
