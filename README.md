@@ -17,8 +17,8 @@ Note: 1. Only the creator of joke can delete the user
 ## Setup
 ### Environment setup
 ```
-> python3 -m virtualenv venv
-(python 3.12 is used)
+> python3 -m venv venv
+(python 3.13 is used)
 
 > source venv/bin/activate
 > python3 -m pip install -r requirements.txt
