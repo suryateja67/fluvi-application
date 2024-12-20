@@ -33,11 +33,13 @@ Ensure Redis is installed and running. You can start it with:
 
 Run Celery Worker
 Start the Celery worker to handle background tasks:
+> export PYTHONPATH=$PWD
 > cd app
 > celery -A celery_worker.celery_app worker --loglevel=info
 
 Run Celery Beat Scheduler
 Start the Celery beat scheduler to manage periodic tasks:
+> export PYTHONPATH=$PWD
 > cd app
 > celery -A celery_worker.celery_app beat --loglevel=info
 
