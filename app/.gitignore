@@ -1,0 +1,7 @@
+.DS_Store
+venv
+__pycache__/
+bin/python/
+.env
+python
+python.zip
