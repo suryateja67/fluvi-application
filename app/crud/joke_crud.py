@@ -2,8 +2,9 @@ from app.models.models import User, Joke
 from app.utils import create_verify_joke_id
 
 from bson import ObjectId
+from typing import Optional
 
-async def create_joke(joke_text: str, author: User, joke_id: str = None) -> Joke:
+async def create_joke(joke_text: str, author: Optional[User] = None, joke_id: str = None) -> Joke:
     joke_id = await create_verify_joke_id(joke_id)
     joke = Joke(joke=joke_text, author=author, id=joke_id)
     await joke.insert() 
